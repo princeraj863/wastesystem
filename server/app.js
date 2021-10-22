@@ -9,19 +9,17 @@ dotenv.config({ path: "./config.env" });
 
 require("./db/conn");
 const User = require("./model/userSchema");
+
+//to convert json data to object as this app doesn't understand data
+app.use(express.json());
+
 const PORT = process.env.PORT;
 
 //middleware runs before page loads
-const middleware = (req, res, next) => {
-  console.log("f");
-  next();
-};
+//we limk the router files to make our route easy
+app.use(require("./router/auth"));
 
-app.get("/", (req, res) => {
-  res.send("hello");
-});
-
-app.get("/about", middleware, (req, res) => {
+app.get("/about", (req, res) => {
   res.send("hello about");
 });
 
