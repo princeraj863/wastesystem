@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const express = require("express");
 const User = require("../model/userSchema");
 const router = express.Router();
@@ -53,6 +54,9 @@ router.post("/signin", async (req, res) => {
     if (userLogin) {
       // first password = which user puts during signin, 2nd password is from the data that we get when find the user in db
       const isMatch = await bcrypt.compare(password, userLogin.password);
+
+      const token = await userLogin.generateAuthToken();
+      console.log(token);
 
       if (!isMatch) {
         res.status(400).json({ error: "Invalid Credientials" });
