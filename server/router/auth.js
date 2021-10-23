@@ -20,13 +20,18 @@ router.post("/register", async (req, res) => {
 
     if (userExist) {
       return res.status(422).json({ error: "User already exsit " });
+    } else if (password != cpassword) {
+      return res.status(422).json({ error: "Passwords are not matching " });
+    } else {
+      const user = new User({ name, email, phone, password, cpassword }); // if key and value are same we can write anyone of them only
+
+      /*before saving we hash the password to be stored in db using pre function , type of function save(),and in 
+    callback function we'll hash the password ,it's a middleware, we do it in UserSchema.js    */
+
+      await user.save();
+
+      res.status(201).json({ message: "user registered successfully" });
     }
-
-    const user = new User({ name, email, phone, password, cpassword }); // if key and value are same we can write anyone of them only
-
-    await user.save();
-
-    res.status(201).json({ message: "user registered successfully" });
   } catch (err) {
     console.log(err);
   }
