@@ -20,6 +20,7 @@ const PORT = process.env.PORT;
 app.use(require("./router/auth"));
 
 app.get("/about", (req, res) => {
+  res.cookie("jwtoken", "baby");
   res.send("hello about");
 });
 

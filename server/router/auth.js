@@ -58,6 +58,11 @@ router.post("/signin", async (req, res) => {
       const token = await userLogin.generateAuthToken();
       console.log(token);
 
+      res.cookie("jwtoken", token, {
+        expires: new Date(Date.now() + 10000000000),
+        httpOnly: true, // otherwise won't work without https
+      }); // first name of cookie and then value of it
+
       if (!isMatch) {
         res.status(400).json({ error: "Invalid Credientials" });
       } else {
