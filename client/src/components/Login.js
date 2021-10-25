@@ -2,9 +2,43 @@ import React from "react";
 
 const Login = () => {
   return (
-    <div>
-      <p className="pt-5">WELCOME login</p>
-      <h1>We are the mern developer111111111111</h1>
+    <div className="form">
+      <div>
+        <label htmlFor="email">Email:</label>
+        <br />
+        <input
+          className="input"
+          type="email"
+          name="email"
+          id="email"
+          autoComplete="off"
+          placeholder="Your email"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="password">password:</label>
+        <br />
+        <input
+          className="input"
+          type="password"
+          name="password"
+          id="password"
+          autoComplete="off"
+          placeholder="Your password"
+        />
+      </div>
+
+      <div>
+        <input
+          className="input"
+          type="submit"
+          name="signin"
+          id="signin"
+          value="login"
+          autoComplete="off"
+        />
+      </div>
     </div>
   );
 };

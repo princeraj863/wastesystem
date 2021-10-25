@@ -9,22 +9,36 @@ import About from "./About";
 const Navbar = () => {
   return (
     <Router>
-      <div>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/signup">Signup</Link>
-        </li>
-        <li>
-          <Link to="/contact">Contact Me</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
+      <div className="navwrapper">
+        <div className="navwrapperleft">
+          <li className="list">
+            <Link className="link" to="/">
+              Home
+            </Link>
+          </li>
+        </div>
+        <div className="navwrapperright">
+          <li className="list">
+            <Link className="link" to="/about">
+              About
+            </Link>
+          </li>
+          <li className="list">
+            <Link className="link" to="/signup">
+              Signup
+            </Link>
+          </li>
+          <li className="list">
+            <Link className="link" to="/contact">
+              Contact Me
+            </Link>
+          </li>
+          <li className="list">
+            <Link className="link" to="/login">
+              Login
+            </Link>
+          </li>
+        </div>
       </div>
 
       <Switch>
