@@ -43,6 +43,7 @@ const Navbar = () => {
 
       <Switch>
         <Route exact path="/">
+          3
           <Home />
         </Route>
         <Route path="/about">
