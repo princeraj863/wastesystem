@@ -3,7 +3,7 @@ const User = require("../model/userSchema");
 
 const Authenticate = async (req, res, next) => {
   try {
-    console.log("req==", req.cookies);
+    //console.log("req==", req.cookies);
     const token = req.cookies.jwtoken;
     const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
 

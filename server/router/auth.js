@@ -4,6 +4,7 @@ const User = require("../model/userSchema");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const authenticate = require("../middleware/authenticate");
+const wasteData = require("../model/wasteData");
 
 require("../db/conn");
 
@@ -46,7 +47,6 @@ router.post("/register", async (req, res) => {
     console.log(err);
   }
 });
-var token1 = "1";
 //login route
 
 router.post("/signin", async (req, res) => {
@@ -80,7 +80,6 @@ router.post("/signin", async (req, res) => {
       } else {
         res.status(200).json({ message: "user Signin Successfullly" });
       }
-      3;
     } else {
       res.status(400).json({ error: "Invalid Credientials" });
     }
@@ -89,15 +88,91 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.get("/about", authenticate, (req, res) => {
-  console.log("about");
-  res.send(req.rootUser);
+router.get("/about", authenticate, async (req, res) => {
+  try {
+    console.log("wasteid", req.rootUser.Waste);
+
+    let user = {};
+    user.name = req.rootUser.name;
+    user.email = req.rootUser.email;
+    user.phone = req.rootUser.phone;
+    user.Waste = req.rootUser.Waste;
+    let waste1 = {};
+    if (user.Waste) {
+      let id = user.Waste;
+      const docs = await wasteData.findById(id);
+
+      waste1 = docs;
+    }
+    let profile = {};
+    profile.user = user;
+    profile.waste1 = waste1;
+    console.log("about : ", profile);
+
+    res.send(profile);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 router.get("/contact", (req, res) => {
   //  res.cookie("jwttttttoken", token1);
   //  console.log("fcuk");
   res.send("hello contact");
+});
+
+router.post("/official", authenticate, async (req, res) => {
+  try {
+    const { electronic, plastic, organic, inorganic, medical, other } =
+      req.body;
+    console.log("req.body===", req.body);
+    let wasteid = req.rootUser.Waste;
+    let waste = {};
+    if (!wasteid) {
+      let waste = await wasteData.create({
+        electronic: electronic,
+        plastic: plastic,
+        organic: organic,
+        inorganic: inorganic,
+        medical: medical,
+        other: other,
+        user: req.rootUser._id,
+      });
+
+      await waste.save();
+    } else {
+      waste = await wasteData.findById(wasteid);
+      console.log("first==", waste);
+
+      waste.electronic += parseInt(electronic);
+      waste.plastic += parseInt(plastic);
+      waste.organic += parseInt(organic);
+      waste.inorganic += parseInt(inorganic);
+      waste.medical += parseInt(medical);
+      waste.other += parseInt(other);
+      console.log("first1==", waste);
+      waste = await wasteData.findByIdAndUpdate(wasteid, waste);
+      console.log("first2==", waste);
+    }
+
+    let user = {};
+    user.name = req.rootUser.name;
+    user.email = req.rootUser.email;
+    user.phone = req.rootUser.phone;
+    let waste1 = {};
+    waste1.waste = waste;
+    waste1.user = user;
+    let id = req.rootUser.id;
+    if (!wasteid) {
+      const docs = await User.findByIdAndUpdate(id, { Waste: waste.id });
+      console.log("Updated User : ", docs);
+    }
+
+    console.log("waste1===", waste1);
+    res.send(waste1);
+  } catch (err) {
+    console.log("err=========", err);
+  }
 });
 
 module.exports = router;

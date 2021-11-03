@@ -5,6 +5,7 @@ import Contact from "./Contact";
 import Signup from "./Signup";
 import Login from "./Login";
 import About from "./About";
+import Updatewaste1 from "./Updatewaste1";
 
 const Navbar = () => {
   return (
@@ -38,6 +39,11 @@ const Navbar = () => {
               Login
             </Link>
           </li>
+          <li className="list">
+            <Link className="link" to="/official">
+              update waste
+            </Link>
+          </li>
         </div>
       </div>
 
@@ -57,6 +63,9 @@ const Navbar = () => {
         </Route>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/official">
+          <Updatewaste1 />
         </Route>
       </Switch>
     </Router>

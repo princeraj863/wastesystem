@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  Waste: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "waste",
+  },
 });
 
 /*before saving we hash the password to be stored in db using pre function , type of function save(),and in 
@@ -61,6 +65,6 @@ userSchema.methods.generateAuthToken = async function () {
 };
 
 //creating a new collection using models
-const User = mongoose.model("USER", userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
