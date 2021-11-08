@@ -127,9 +127,11 @@ router.post("/official", authenticate, async (req, res) => {
       req.body;
     console.log("req.body===", req.body);
     let wasteid = req.rootUser.Waste;
+    console.log("wasteid===", req.rootUser.Waste);
     let waste = {};
-    if (!wasteid) {
-      let waste = await wasteData.create({
+    if (!req.rootUser.Waste) {
+      console.log("hello wasteid");
+      waste = await wasteData.create({
         electronic: electronic,
         plastic: plastic,
         organic: organic,
